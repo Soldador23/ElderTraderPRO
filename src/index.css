@@ -1,0 +1,263 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Elder Trader Pro — Institutional Trading Terminal
+   Inspired by Bloomberg / Koyfin / TradingView Pro
+   All colors MUST be HSL. */
+
+@layer base {
+  :root {
+    /* Surfaces — deep ink with warm undertone */
+    --background: 222 30% 4%;
+    --foreground: 40 30% 94%;
+
+    --card: 222 28% 7%;
+    --card-foreground: 40 30% 94%;
+
+    --popover: 222 28% 7%;
+    --popover-foreground: 40 30% 94%;
+
+    /* Brand: refined gold (less saturated, more editorial) */
+    --primary: 42 88% 62%;
+    --primary-foreground: 222 40% 5%;
+    --primary-glow: 38 95% 55%;
+
+    --secondary: 222 22% 11%;
+    --secondary-foreground: 40 30% 94%;
+
+    --muted: 222 20% 9%;
+    --muted-foreground: 220 10% 55%;
+
+    --accent: 222 22% 13%;
+    --accent-foreground: 40 30% 94%;
+
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 220 18% 14%;
+    --border-strong: 42 50% 35%;
+    --input: 222 22% 12%;
+    --ring: 42 88% 62%;
+
+    --radius: 0.5rem;
+
+    /* Trading semantic — institutional palette */
+    --bull: 152 64% 48%;
+    --bull-foreground: 222 40% 5%;
+    --bear: 358 72% 58%;
+    --bear-foreground: 0 0% 98%;
+    --neutral: 220 14% 60%;
+    --neutral-foreground: 0 0% 98%;
+    --warning: 38 95% 55%;
+    --info: 210 90% 60%;
+
+    /* Effects — subtler, more refined */
+    --gradient-bull: linear-gradient(135deg, hsl(152 64% 48%), hsl(168 70% 42%));
+    --gradient-bear: linear-gradient(135deg, hsl(358 72% 58%), hsl(345 78% 50%));
+    --gradient-gold: linear-gradient(135deg, hsl(42 88% 62%), hsl(36 92% 52%));
+    --gradient-card: linear-gradient(180deg, hsl(222 28% 8%), hsl(222 30% 5%));
+    --gradient-surface: linear-gradient(180deg, hsl(222 26% 10%) 0%, hsl(222 28% 7%) 100%);
+    --gradient-glow: radial-gradient(circle at 50% 0%, hsl(42 88% 62% / 0.12), transparent 70%);
+    --gradient-mesh:
+      radial-gradient(at 20% 0%, hsl(42 88% 62% / 0.08) 0px, transparent 50%),
+      radial-gradient(at 80% 100%, hsl(210 90% 60% / 0.05) 0px, transparent 50%),
+      radial-gradient(at 50% 50%, hsl(280 60% 50% / 0.03) 0px, transparent 50%);
+
+    --shadow-glow-gold: 0 0 60px hsl(42 88% 62% / 0.25);
+    --shadow-glow-bull: 0 0 40px hsl(152 64% 48% / 0.35);
+    --shadow-glow-bear: 0 0 40px hsl(358 72% 58% / 0.35);
+    --shadow-card: 0 1px 0 hsl(40 30% 94% / 0.04) inset, 0 8px 24px hsl(222 40% 2% / 0.6);
+    --shadow-elev: 0 1px 0 hsl(40 30% 94% / 0.06) inset, 0 20px 40px -10px hsl(222 40% 2% / 0.8);
+
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --sidebar-background: 222 30% 4%;
+    --sidebar-foreground: 40 30% 94%;
+    --sidebar-primary: 42 88% 62%;
+    --sidebar-primary-foreground: 222 40% 5%;
+    --sidebar-accent: 222 22% 12%;
+    --sidebar-accent-foreground: 40 30% 94%;
+    --sidebar-border: 220 18% 14%;
+    --sidebar-ring: 42 88% 62%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "ss01", "ss02", "cv11";
+    background-image: var(--gradient-mesh);
+    background-attachment: fixed;
+  }
+
+  /* Mono numerals for prices */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum", "zero";
+  }
+
+  /* Editorial display styling */
+  .font-display {
+    font-feature-settings: "ss01", "ss02", "cv11";
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer components {
+  .glass-card {
+    background: var(--gradient-card);
+    border: 1px solid hsl(var(--border));
+    box-shadow: var(--shadow-card);
+    position: relative;
+  }
+
+  .glass-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(180deg, hsl(40 30% 94% / 0.06), transparent 40%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+              mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .premium-card {
+    background: var(--gradient-surface);
+    border: 1px solid hsl(var(--border));
+    box-shadow: var(--shadow-elev);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .premium-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.4), transparent);
+  }
+
+  .signal-glow-bull {
+    box-shadow: var(--shadow-glow-bull);
+    animation: pulse-bull 2.4s ease-in-out infinite;
+  }
+
+  .signal-glow-bear {
+    box-shadow: var(--shadow-glow-bear);
+    animation: pulse-bear 2.4s ease-in-out infinite;
+  }
+
+  .text-gradient-gold {
+    background: var(--gradient-gold);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Terminal-style divider */
+  .divider-dotted {
+    background-image: linear-gradient(90deg, hsl(var(--border)) 50%, transparent 50%);
+    background-size: 6px 1px;
+    background-repeat: repeat-x;
+    height: 1px;
+  }
+
+  .divider-vertical-dotted {
+    background-image: linear-gradient(180deg, hsl(var(--border)) 50%, transparent 50%);
+    background-size: 1px 6px;
+    background-repeat: repeat-y;
+    width: 1px;
+  }
+
+  /* Ticker label — small caps editorial */
+  .label-mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: hsl(var(--muted-foreground));
+  }
+
+  /* Live dot */
+  .live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: hsl(var(--bull));
+    box-shadow: 0 0 0 0 hsl(var(--bull) / 0.7);
+    animation: live-pulse 1.6s infinite;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 2px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.5);
+  }
+
+  /* Noise texture overlay for premium feel */
+  .noise::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.03;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
+  }
+}
+
+@keyframes pulse-bull {
+  0%, 100% { box-shadow: 0 0 30px hsl(152 64% 48% / 0.3); }
+  50% { box-shadow: 0 0 50px hsl(152 64% 48% / 0.6); }
+}
+@keyframes pulse-bear {
+  0%, 100% { box-shadow: 0 0 30px hsl(358 72% 58% / 0.3); }
+  50% { box-shadow: 0 0 50px hsl(358 72% 58% / 0.6); }
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+@keyframes live-pulse {
+  0% { box-shadow: 0 0 0 0 hsl(var(--bull) / 0.6); }
+  70% { box-shadow: 0 0 0 8px hsl(var(--bull) / 0); }
+  100% { box-shadow: 0 0 0 0 hsl(var(--bull) / 0); }
+}
+@keyframes ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-blink { animation: blink 1.4s ease-in-out infinite; }
+.animate-blink-fast { animation: blink 0.4s ease-in-out infinite; }
+.animate-ticker { animation: ticker-scroll 60s linear infinite; }
+.entry-flash-bull { animation: flash-bull 0.6s ease-in-out infinite; }
+.entry-flash-bear { animation: flash-bear 0.6s ease-in-out infinite; }
+
+@keyframes flash-bull {
+  0%, 100% { background-color: transparent; }
+  50% { background-color: hsl(152 64% 48% / 0.2); }
+}
+@keyframes flash-bear {
+  0%, 100% { background-color: transparent; }
+  50% { background-color: hsl(358 72% 58% / 0.2); }
+}
